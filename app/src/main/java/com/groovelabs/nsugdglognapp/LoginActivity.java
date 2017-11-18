@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -43,13 +44,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        SignInButton button = (SignInButton) findViewById(R.id.gmail_sign_in_button);
+        button.setOnClickListener(new MyButtonListener());
+
     }
 
-    private void signIn() {
-        Intent signInIntent =
-                Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -68,6 +67,18 @@ public class LoginActivity extends AppCompatActivity {
             fireabaseAccountRegister(acct);
             //statusTextView.setText("Hello, " + acct.getDisplayName());
         } else {
+        }
+    }
+
+    class MyButtonListener implements View.OnClickListener
+    {
+
+        @Override
+        public void onClick(View v) {
+            Intent signInIntent =
+                    Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            Log.e("calling", "calling sign");
+            startActivityForResult(signInIntent, RC_SIGN_IN);
         }
     }
 
@@ -94,9 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void signIn(View view) {
-        Intent signInIntent =
-                Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     class MyFailedListener implements GoogleApiClient.OnConnectionFailedListener {
